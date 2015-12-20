@@ -39,7 +39,7 @@ module Api
       twilio_client.messages.create(
         to: '8604628785',
         from: ENV['TWILIO_PHONE_NUMBER'],
-        body: lending_message
+        body: lending_message(amount, terms)
       )
     end
 
@@ -49,7 +49,7 @@ module Api
       Twilio::REST::Client.new(sid, token)
     end
 
-    def lending_message
+    def lending_message(amount, terms)
       "***TEST*** Someone would like to lend you $#{amount} to be paid back with #{terms}. Do you accept the loan with these terms?"
     end
 
