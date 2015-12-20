@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 #    Rails Default Gems
 #-------------------------------------------------
 gem 'rails',        '4.2.4'
-gem 'sqlite3'
+# gem 'sqlite3'
 gem 'sass-rails',   '~> 5.0'
 gem 'uglifier',     '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
@@ -20,6 +20,8 @@ gem 'rack-cors',                :require => 'rack/cors' # for cross-origin reque
 gem 'active_model_serializers'                          # for converting API data to json
 gem 'responders'                                        # responder modules extracted from Rails
 gem 'twilio-ruby'                                       # for text messaging
+gem 'pg'                                                # use postgres db instead of sqlite
+gem 'rails_12factor'                                    # for Heroku deployment
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -36,3 +38,4 @@ group :development do
   gem 'spring'
 end
 
+ruby '2.2.2' # for Heroku
