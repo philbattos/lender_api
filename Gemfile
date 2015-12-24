@@ -21,6 +21,7 @@ gem 'responders'                                        # responder modules extr
 gem 'twilio-ruby'                                       # for text messaging
 gem 'pg'                                                # use postgres db instead of sqlite
 gem 'rails_12factor'                                    # for Heroku deployment
+gem 'sidekiq'                                           # for background workers
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
