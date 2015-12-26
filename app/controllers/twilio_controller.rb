@@ -1,5 +1,5 @@
 module Twilio
-  class SMSController < ApplicationController
+  class SmsController < ApplicationController
 
     def sms
       puts params
