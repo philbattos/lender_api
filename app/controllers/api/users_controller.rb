@@ -7,18 +7,17 @@ module Api
     end
 
     def create
-      puts params
-      user = User.create(user_params)
-      if user
+      user = User.new(user_params)
+      if user.save
         render json: user
       else
         render json: 422
       end
     end
 
-    def default_serializer_options
-      { root: false }
-    end
+    # def default_serializer_options
+    #   { root: false }
+    # end
 
   #=================================================
     private

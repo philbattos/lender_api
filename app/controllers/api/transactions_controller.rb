@@ -1,15 +1,16 @@
 module Api
   class TransactionsController < ApplicationController
+    before_action :find_user, only: :create
     before_action :find_peer, only: :create
     respond_to :json
 
     def index
-      render json: Transaction.all
+      @transactions = Transaction.all
     end
 
     def create
-      trans = Transaction.create(transaction_params) {|t| t.peer_id = @peer.id }
-      if trans
+      trans = @user.transactions.new(transaction_params) {|t| t.peer_id = @peer.id }
+      if trans.save
         NotificationsWorker.perform_async(trans.amount, trans.terms)
         render json: trans
       else
@@ -17,15 +18,19 @@ module Api
       end
     end
 
-    def default_serializer_options
-      { root: false }
-    end
+    # def default_serializer_options
+    #   { root: false }
+    # end
 
   #=================================================
     private
   #=================================================
     def transaction_params
       params.require(:transaction).permit(:user_id, :peer_id, :amount, :terms)
+    end
+
+    def find_user
+      @user ||= User.find_by(email: 'philbattos@gmail.com')
     end
 
     def find_peer

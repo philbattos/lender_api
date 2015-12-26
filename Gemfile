@@ -27,7 +27,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'rspec-rails'
-  gem 'dotenv-rails' # for storing environment variables
+  gem 'dotenv-rails'  # for storing environment variables
+  gem 'pry-rails'     # for inspecting and debugging
 end
 
 group :development do
