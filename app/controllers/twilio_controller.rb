@@ -14,25 +14,25 @@ module Twilio
     private
   #=================================================
     def sms_parameters
-      params.permit(:ToCountry,
-                    :ToState,
-                    :SmsMessageSid,
-                    :NumMedia,
-                    :ToCity,
-                    :FromZip,
-                    :SmsSid,
-                    :FromState,
-                    :SmsStatus,
-                    :FromCity,
-                    :Body,
-                    :FromCountry,
-                    :To,
-                    :ToZip,
-                    :NumSegments,
-                    :MessageSid,
-                    :AccountSid,
-                    :From,
-                    :ApiVersion
+      params.permit(:to_country,
+                    :to_state,
+                    :sms_message_sid,
+                    :num_media,
+                    # :ToCity,
+                    # :FromZip,
+                    # :SmsSid,
+                    # :FromState,
+                    # :SmsStatus,
+                    # :FromCity,
+                    # :Body,
+                    # :FromCountry,
+                    # :To,
+                    # :ToZip,
+                    # :NumSegments,
+                    # :MessageSid,
+                    # :AccountSid,
+                    # :From,
+                    # :ApiVersion
                     )
     end
 
