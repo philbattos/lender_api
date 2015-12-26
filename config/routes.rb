@@ -4,8 +4,6 @@ Rails.application.routes.draw do
     resources :transactions,  only: [:index, :create]
   end
 
-  # post 'twilio/sms' => 'twilio#sms'
-  # resource :sms, only: :create
   namespace :twilio do
     resources :sms, only: :create
   end
