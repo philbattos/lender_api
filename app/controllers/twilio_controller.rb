@@ -3,8 +3,8 @@ module Twilio
 
     def create
       puts params
-      params.to_a.map {|x| params[x[0].to_s.underscore.to_sym] = params.delete(x[0])}
-      @sms = SMS.new(params)
+      sms_parameters.to_a.map {|x| sms_parameters[x[0].to_s.underscore.to_sym] = sms_parameters.delete(x[0])}
+      @sms = SMS.new(sms_parameters)
       @sms.save
 
       render xml: "<Response><Message>Test response from Twilio#create.</Message></Response>"
