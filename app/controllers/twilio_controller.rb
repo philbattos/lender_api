@@ -18,6 +18,10 @@ module Twilio
                     :to_state,
                     :sms_message_sid,
                     :num_media,
+                    'ToCity',
+                    'FromZip',
+                    'from_state',
+                    'from_city'
                     # :ToCity,
                     # :FromZip,
                     # :SmsSid,
