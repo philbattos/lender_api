@@ -3,6 +3,10 @@ module Twilio
 
     def create
       puts params
+      puts session.inspect
+      sms_state = session[:sms_state]
+      puts sms_state
+      puts session.inspect
       @sms = SMS.new(formatted_params)
       @sms.save
 
@@ -13,48 +17,48 @@ module Twilio
     private
   #=================================================
     def sms_parameters
-      params.permit(:ToCountry,
-                    :ToState,
-                    :SmsMessageSid,
-                    :NumMedia,
+      params.permit(:Body,
+                    :To,
+                    :From,
                     :ToCity,
+                    :ToState,
+                    :ToCountry,
+                    :ToZip,
+                    :SmsMessageSid,
+                    :FromCity,
+                    :FromState,
+                    :FromCountry,
                     :FromZip,
                     :SmsSid,
-                    :FromState,
                     :SmsStatus,
-                    :FromCity,
-                    :Body,
-                    :FromCountry,
-                    :To,
-                    :ToZip,
+                    :NumMedia,
                     :NumSegments,
                     :MessageSid,
                     :AccountSid,
-                    :From,
                     :ApiVersion
                     )
     end
 
     def formatted_params
       {
-        to_country:       sms_parameters[:ToCountry],
-        to_state:         sms_parameters[:ToState],
-        sms_message_sid:  sms_parameters[:SmsMessageSid],
-        num_media:        sms_parameters[:NumMedia],
+        body:             sms_parameters[:Body],
+        to:               sms_parameters[:To],
+        from:             sms_parameters[:From],
         to_city:          sms_parameters[:ToCity],
+        to_state:         sms_parameters[:ToState],
+        to_country:       sms_parameters[:ToCountry],
+        to_zip:           sms_parameters[:ToZip],
+        sms_message_sid:  sms_parameters[:SmsMessageSid],
+        from_city:        sms_parameters[:FromCity],
+        from_state:       sms_parameters[:FromState],
+        from_country:     sms_parameters[:FromCountry],
         from_zip:         sms_parameters[:FromZip],
         sms_sid:          sms_parameters[:SmsSid],
-        from_state:       sms_parameters[:FromState],
         sms_status:       sms_parameters[:SmsStatus],
-        from_city:        sms_parameters[:FromCity],
-        body:             sms_parameters[:Body],
-        from_country:     sms_parameters[:FromCountry],
-        to:               sms_parameters[:To],
-        to_zip:           sms_parameters[:ToZip],
+        num_media:        sms_parameters[:NumMedia],
         num_segments:     sms_parameters[:NumSegments],
         message_sid:      sms_parameters[:MessageSid],
         account_sid:      sms_parameters[:AccountSid],
-        from:             sms_parameters[:From],
         api_version:      sms_parameters[:ApiVersion]
       }
     end
