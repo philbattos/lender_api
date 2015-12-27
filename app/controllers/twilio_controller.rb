@@ -2,20 +2,34 @@ module Twilio
   class SmsController < ApplicationController
 
     def create
-      puts params
-      puts session.inspect
-      sms_state = session[:sms_state]
-      puts sms_state
-      puts session.inspect
       @sms = SMS.new(formatted_params)
-      @sms.save
-
-      render xml: "<Response><Message>Test response from Twilio#create.</Message></Response>"
+      if @sms.save
+        # transaction = find_transaction
+        if accepted_response.include? @sms.body.upcase
+          # transaction.mark_as_accepted_by_peer
+          render xml: '<Response><Message>Congratulations, {{so-and-so}} has lent you {{amount}} for {{terms}}. You can view this on friend-lender-app.</Message></Response>'
+        else
+          render xml: '<Response><Message>Ok, we will inform {{so-and-so}} that you have declined their offer.</Message></Response>'
+        end
+        # render xml: "<Response><Message>Test response from Twilio#create.</Message></Response>"
+      else
+        render xml: "<Response><Message>There was an error. Please try again.</Message></Response>"
+        # send notification to admin
+      end
     end
 
   #=================================================
     private
   #=================================================
+    def find_transaction
+      # transaction = User.find_by(phone: @sms.from).open_request
+      # Transaction.find_by(user_id: params[], peer_id: @sms.from)
+    end
+
+    def accepted_response
+      %w[ YES YE YA YEAH YEP YUP OK SURE FINE ]
+    end
+
     def sms_parameters
       params.permit(:Body,
                     :To,
