@@ -22,7 +22,7 @@ class Transaction < ActiveRecord::Base
   #    States
   #-------------------------------------------------
   aasm do
-    state :fresh, initial: true   # sent initial request; awaiting confirmation from peer
+    state :fresh, initial: true   # state when transaction is created
     state :requested_confirmation # sent request to peer to confirm loan
     state :active                 # in repayment
     state :rejected               # request unaccepted by peer

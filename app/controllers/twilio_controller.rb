@@ -7,16 +7,15 @@ module Twilio
       if @sms.save
         transaction = find_transaction
         if accepted_response.include? @sms.body.upcase
-          transaction.confirm # change state of transaction to 'active'
-          # render xml: '<Response><Message>Congratulations, {{so-and-so}} has lent you {{amount}} for {{terms}}. You can view this on friend-lender-app.</Message></Response>'
-          render 'twilio/sms/confirmation.xml.erb', :content_type => 'text/xml'
+          transaction.confirm! # change state of transaction to 'active'
+          render 'twilio/sms/confirmation.xml.erb', content_type: 'text/xml'
           # render xml: 'twilio/sms/confirmation.xml.erb'
         else
-          transaction.decline # change state of transaction to 'rejected'
-          render xml: 'twilio/sms/declined.xml.erb'
+          transaction.decline! # change state of transaction to 'rejected'
+          render 'twilio/sms/declined.xml.erb', content_type: 'text/xml'
         end
       else
-        render xml: 'twilio/sms/error.xml.erb'
+        render 'twilio/sms/error.xml.erb', content_type: 'text/xml'
         # TO DO: send notification to admin
       end
     end
@@ -27,6 +26,7 @@ module Twilio
     def find_transaction
       transaction = User.find_by(phone: @sms.from).open_request
       # TO DO: what happens if user or transaction can't be found?
+      # TO DO: what if there are more than one users with the same phone number? Do we want to select the first in that group?
     end
 
     def accepted_response

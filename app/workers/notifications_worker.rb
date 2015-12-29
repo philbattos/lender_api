@@ -16,6 +16,8 @@ class NotificationsWorker
     #   send_sms
     # end
 
+    # change state of transaction to :requested_confirmation
+
     twilio_client.messages.create(
       to: '8604628785',
       from: ENV['TWILIO_PHONE_NUMBER'],
