@@ -1,6 +1,6 @@
 module Api
   class UsersController < ApplicationController
-    before_action :format_phone_number
+    # before_action :format_phone_number
     respond_to :json
 
     def index
@@ -29,12 +29,12 @@ module Api
       params.require(:user).permit(:name, :email, :phone)
     end
 
-    def format_phone_number
-      raw_phone = params[:phone]
-      if raw_phone.length == 10
-        params[:phone] = raw_phone.gsub(/\D/, '').insert(0, '+1')
-      end
-    end
+    # def format_phone_number
+    #   raw_phone = params[:phone]
+    #   if raw_phone.length == 10
+    #     params[:phone] = raw_phone.gsub(/\D/, '').insert(0, '+1')
+    #   end
+    # end
 
   end
 end
