@@ -20,23 +20,23 @@ gem 'active_model_serializers'                          # for converting API dat
 gem 'responders'                                        # responder modules extracted from Rails
 gem 'twilio-ruby'                                       # for text messaging
 gem 'pg'                                                # use postgres db instead of sqlite
-gem 'rails_12factor'                                    # for Heroku deployment
 gem 'sidekiq'                                           # for background workers
+gem 'aasm'                                              # state machine
+
+group :production do
+  gem 'rails_12factor'                                  # for Heroku deployment
+end
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  gem 'byebug'        # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'rspec-rails'
   gem 'dotenv-rails'  # for storing environment variables
   gem 'pry-rails'     # for inspecting and debugging
 end
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  gem 'web-console', '~> 2.0' # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'spring'                # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 end
 
 ruby '2.2.2' # for Heroku

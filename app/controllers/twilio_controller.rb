@@ -2,19 +2,22 @@ module Twilio
   class SmsController < ApplicationController
 
     def create
+      # TO DO: move xml responses to partial views
       @sms = SMS.new(formatted_params)
       if @sms.save
-        # transaction = find_transaction
+        transaction = find_transaction
         if accepted_response.include? @sms.body.upcase
-          # transaction.mark_as_accepted_by_peer
-          render xml: '<Response><Message>Congratulations, {{so-and-so}} has lent you {{amount}} for {{terms}}. You can view this on friend-lender-app.</Message></Response>'
+          transaction.confirm # change state of transaction to 'active'
+          # render xml: '<Response><Message>Congratulations, {{so-and-so}} has lent you {{amount}} for {{terms}}. You can view this on friend-lender-app.</Message></Response>'
+          render 'twilio/sms/confirmation.xml.erb', :content_type => 'text/xml'
+          # render xml: 'twilio/sms/confirmation.xml.erb'
         else
-          render xml: '<Response><Message>Ok, we will inform {{so-and-so}} that you have declined their offer.</Message></Response>'
+          transaction.decline # change state of transaction to 'rejected'
+          render xml: 'twilio/sms/declined.xml.erb'
         end
-        # render xml: "<Response><Message>Test response from Twilio#create.</Message></Response>"
       else
-        render xml: "<Response><Message>There was an error. Please try again.</Message></Response>"
-        # send notification to admin
+        render xml: 'twilio/sms/error.xml.erb'
+        # TO DO: send notification to admin
       end
     end
 
@@ -22,8 +25,8 @@ module Twilio
     private
   #=================================================
     def find_transaction
-      # transaction = User.find_by(phone: @sms.from).open_request
-      # Transaction.find_by(user_id: params[], peer_id: @sms.from)
+      transaction = User.find_by(phone: @sms.from).open_request
+      # TO DO: what happens if user or transaction can't be found?
     end
 
     def accepted_response

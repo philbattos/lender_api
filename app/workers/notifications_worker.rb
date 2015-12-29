@@ -2,6 +2,20 @@ class NotificationsWorker
   include Sidekiq::Worker
 
   def perform(amount, terms)
+    # if phone
+    #   send_sms
+    # elsif email
+    #   send_email
+    # else
+    #   send error to client
+    # end
+
+    # if user.has_open_request?
+    #   send message to peer: "{{so-and-so}} would like to lend you money but you currently have a request from {{someone-else}}. Please respond to {{someone-else's}} request so that we can send you future loan requests."
+    # else
+    #   send_sms
+    # end
+
     twilio_client.messages.create(
       to: '8604628785',
       from: ENV['TWILIO_PHONE_NUMBER'],

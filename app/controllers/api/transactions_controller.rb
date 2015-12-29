@@ -11,6 +11,7 @@ module Api
     def create
       trans = @user.transactions.new(transaction_params) {|t| t.peer_id = @peer.id }
       if trans.save
+        # TO DO: ensure that client form contains validations for phone number and/or email address of peer
         NotificationsWorker.perform_async(trans.amount, trans.terms)
         render json: trans
       else
