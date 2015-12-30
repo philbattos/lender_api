@@ -16,7 +16,6 @@ class Transaction < ActiveRecord::Base
   #-------------------------------------------------
   #    Scopes
   #-------------------------------------------------
-  # scope :opened, -> { where(aasm_state: 'open') }
 
   #-------------------------------------------------
   #    States
@@ -29,7 +28,7 @@ class Transaction < ActiveRecord::Base
     state :closed                 # loan opened, confirmed, and repaid
     state :delinquent             # terms of loan have been broken (late repayment, etc.)
 
-    event :sent_request do
+    event :send_request do
       transitions from: :fresh, to: :requested_confirmation, :unless => :pending_request?
     end
 

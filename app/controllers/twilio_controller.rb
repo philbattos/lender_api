@@ -1,22 +1,24 @@
 module Twilio
   class SmsController < ApplicationController
+    before_action :find_open_transaction, only: :create
 
     def create
-      # TO DO: move xml responses to partial views
       @sms = SMS.new(formatted_params)
       if @sms.save
-        transaction = find_transaction
-        if accepted_response.include? @sms.body.upcase
-          transaction.confirm! # change state of transaction to 'active'
-          render 'twilio/sms/confirmation.xml.erb', content_type: 'text/xml'
-          # render xml: 'twilio/sms/confirmation.xml.erb'
-        else
-          transaction.decline! # change state of transaction to 'rejected'
-          render 'twilio/sms/declined.xml.erb', content_type: 'text/xml'
+        if @open_transaction
+          if accepted_response.include? @sms.body.upcase
+            transaction.confirm!    # change state of transaction to 'active'
+            render 'twilio/sms/confirmation.xml.erb', content_type: 'text/xml'
+          else                      # unrecognized response; assume user intends to decline loan offer
+            transaction.decline!    # change state of transaction to 'rejected'
+            render 'twilio/sms/declined.xml.erb', content_type: 'text/xml'
+          end
+        else                        # user has no pending requests
+          render 'twilio/sms/unrequested.xml.erb'
         end
       else
-        render 'twilio/sms/error.xml.erb', content_type: 'text/xml'
         # TO DO: send notification to admin
+        render 'twilio/sms/error.xml.erb', content_type: 'text/xml'
       end
     end
 
@@ -24,13 +26,13 @@ module Twilio
     private
   #=================================================
     def find_transaction
-      transaction = User.find_by(phone: @sms.from).open_request
-      # TO DO: what happens if user or transaction can't be found?
-      # TO DO: what if there are more than one users with the same phone number? Do we want to select the first in that group?
+      sender = User.find_by(phone: @sms.from)
+      @open_transaction ||= sender.open_request if sender
+      # TO DO: what if there are more than one users with the same phone number? Do we really want to select the first in that group?
     end
 
     def accepted_response
-      %w[ YES YE YA YEAH YEP YUP OK SURE FINE ]
+      %w[ YES YS YE YA YAH YEAH YEP YUP YYES YYE YYA OK OOK OKK SURE FINE ]
     end
 
     def sms_parameters

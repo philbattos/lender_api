@@ -128,6 +128,7 @@ GEM
     nokogiri (1.6.6.4)
       mini_portile (~> 0.6.0)
     pg (0.18.3)
+    possessive (1.0.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -250,6 +251,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   pg
+  possessive
   pry-rails
   rack-cors
   rails (= 4.2.4)

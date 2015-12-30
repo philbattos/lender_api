@@ -22,6 +22,7 @@ gem 'twilio-ruby'                                       # for text messaging
 gem 'pg'                                                # use postgres db instead of sqlite
 gem 'sidekiq'                                           # for background workers
 gem 'aasm'                                              # state machine
+gem 'possessive'                                        # for displaying possessive names
 
 group :production do
   gem 'rails_12factor'                                  # for Heroku deployment
