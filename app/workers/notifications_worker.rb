@@ -40,16 +40,14 @@ class NotificationsWorker
   end
 
   def request(trans)
-    "#{trans.user.full_name} would like to lend you $#{trans.amount} to be paid back with
-#{trans.terms}. Do you accept the loan with these terms?"
+    # TO DO: find a way
+    "#{trans.user.full_name} would like to lend you $#{trans.amount} to be paid back with #{trans.terms}. If you accept this loan, reply YES."
   end
 
   def notice(trans)
     orig_request    = trans.peer.open_request
     orig_requester  = orig_request.user
-    "#{trans.user.full_name} would like to lend you money but you currently have a pending request
-from #{orig_requester.full_name}. Please respond to #{orig_requester.firstname.possessive} request
-so that we can send you future loan requests."
+    "#{trans.user.full_name} would like to lend you money but you currently have another pending request from #{orig_requester.full_name}. Please respond to #{orig_requester.firstname.possessive} request so that we can send you future loan requests."
   end
 
 end

@@ -25,7 +25,7 @@ module Twilio
   #=================================================
     private
   #=================================================
-    def find_transaction
+    def find_open_transaction
       sender = User.find_by(phone: @sms.from)
       @open_transaction ||= sender.open_request if sender
       # TO DO: what if there are more than one users with the same phone number? Do we really want to select the first in that group?
