@@ -7,10 +7,10 @@ module Twilio
         @transaction = find_transaction
         if @transaction
           if accepted_response.include? @sms.body.upcase
-            @transaction.confirm!    # change state of transaction to 'active'
+            @transaction.confirm!   # change state of transaction to 'active'
             render 'twilio/sms/confirmation.xml.erb', content_type: 'text/xml'
           else                      # unrecognized response; assume user intends to decline loan offer
-            @transaction.decline!    # change state of transaction to 'rejected'
+            @transaction.decline!   # change state of transaction to 'rejected'
             render 'twilio/sms/declined.xml.erb', content_type: 'text/xml'
           end
         else                        # user has no pending requests
