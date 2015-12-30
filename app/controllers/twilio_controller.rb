@@ -1,11 +1,10 @@
 module Twilio
   class SmsController < ApplicationController
-    before_action :find_open_transaction, only: :create
 
     def create
       @sms = SMS.new(formatted_params)
       if @sms.save
-        if @open_transaction
+        if awaiting_response?
           if accepted_response.include? @sms.body.upcase
             transaction.confirm!    # change state of transaction to 'active'
             render 'twilio/sms/confirmation.xml.erb', content_type: 'text/xml'
@@ -25,9 +24,9 @@ module Twilio
   #=================================================
     private
   #=================================================
-    def find_open_transaction
+    def awaiting_response?
       sender = User.find_by(phone: @sms.from)
-      @open_transaction ||= sender.open_request if sender
+      sender && sender.has_open_request?
       # TO DO: what if there are more than one users with the same phone number? Do we really want to select the first in that group?
     end
 
