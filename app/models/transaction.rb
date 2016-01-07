@@ -16,6 +16,7 @@ class Transaction < ActiveRecord::Base
   #-------------------------------------------------
   #    Scopes
   #-------------------------------------------------
+  scope :open, -> { where(aasm_state: [:requested_confirmation, :active, :delinquent]) }
 
   #-------------------------------------------------
   #    States

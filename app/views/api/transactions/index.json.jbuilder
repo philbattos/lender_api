@@ -1,4 +1,4 @@
-json.transactions @transactions do |trans|
+json.open_transactions @open_transactions do |trans|
   json.user User.find(trans.user_id).full_name
   json.peer User.find(trans.peer_id).full_name
   json.amount number_to_currency(trans.amount)

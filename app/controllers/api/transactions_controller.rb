@@ -5,7 +5,7 @@ module Api
     respond_to :json
 
     def index
-      @transactions = Transaction.all
+      @open_transactions = Transaction.open.order(:created_at)
     end
 
     def create
