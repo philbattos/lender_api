@@ -9,7 +9,7 @@ module Api
     end
 
     def show
-      @transaction = Transaction.find(:id)
+      @transaction = Transaction.find(params[:id])
       render json: @transaction # create jbuilder template?
     end
 
