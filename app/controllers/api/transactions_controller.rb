@@ -8,12 +8,17 @@ module Api
       @open_transactions = Transaction.open.order(:created_at)
     end
 
+    def show
+      @transaction = Transaction.find(:id)
+      render json: @transaction # create jbuilder template?
+    end
+
     def create
       trans = @user.transactions.new(transaction_params) {|t| t.peer_id = @peer.id }
       if trans.save
         # TO DO: ensure that client form contains validations for phone number and/or email address of peer
         NotificationsWorker.perform_async(trans.id)
-        render json: trans
+        render json: trans # create jbuilder template?
       else
         render json: 422
       end
@@ -23,7 +28,7 @@ module Api
     private
   #=================================================
     def transaction_params
-      params.require(:transaction).permit(:user_id, :peer_id, :amount, :terms)
+      params.require(:transaction).permit(:id, :user_id, :peer_id, :amount, :terms)
     end
 
     def find_user
