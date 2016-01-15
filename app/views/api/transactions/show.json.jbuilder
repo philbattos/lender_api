@@ -1,9 +1,9 @@
-json.transaction @transaction do |trans|
-  json.id trans.id
-  json.user trans.user.full_name
-  json.peer_firstname trans.peer.firstname
-  json.peer_fullname trans.peer.full_name
-  json.amount number_to_currency(trans.amount)
-  json.terms trans.terms
-  json.state trans.aasm_state
+json.transaction do
+  json.id @transaction.id
+  json.user @transaction.user.full_name
+  json.peer_firstname @transaction.peer.firstname
+  json.peer_fullname @transaction.peer.full_name
+  json.amount number_to_currency(@transaction.amount)
+  json.terms @transaction.terms
+  json.state @transaction.aasm_state
 end
