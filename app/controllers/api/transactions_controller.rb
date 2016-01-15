@@ -36,7 +36,8 @@ module Api
     end
 
     def find_peer
-      @peer = User.find_or_create_by(email: params[:email])
+      # @peer = User.find_or_create_by(email: params[:email])
+      @peer = User.find_or_create_by(email: 'philbattos@gmail.com')
     end
 
   end
