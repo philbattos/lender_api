@@ -41,7 +41,7 @@ class NotificationsWorker
 
   def request(trans)
     # TO DO: find a way
-    "#{trans.user.full_name} would like to lend you $#{trans.amount} to be paid back with #{trans.terms}. If you accept this loan, reply YES."
+    "#{trans.user.full_name} would like to lend you $#{number_to_currency(trans.amount)} to be paid back with #{trans.terms}% interest. If you accept this loan, reply YES."
   end
 
   def notice(trans)
