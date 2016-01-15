@@ -10,7 +10,7 @@ module Api
 
     def show
       @transaction = Transaction.find(params[:id])
-      render json: @transaction # create jbuilder template?
+      # render json: @transaction # create jbuilder template?
     end
 
     def create
@@ -37,8 +37,6 @@ module Api
 
     def find_peer
       format_phone
-      # @peer = User.find_or_create_by(email: params[:email])
-      # @peer = User.find_or_create_by(email: 'philbattos@gmail.com')
       @peer = User.find_or_create_by(phone: params[:phone]) do |peer|
         peer.firstname  = params[:firstname]
         peer.lastname   = params[:lastname]
