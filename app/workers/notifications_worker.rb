@@ -11,13 +11,7 @@ class NotificationsWorker
   private
 #=================================================
   def send_sms(trans)
-    if trans.peer.has_open_request?
-      message = notice(trans)
-    else
-      trans.send_request! # change state of transaction to :requested_confirmation
-      message = request(trans)
-    end
-
+    message = trans.peer.has_open_request? ? notice(trans) : request(trans)
     send_via_twilio(trans, message)
   end
 
@@ -26,11 +20,19 @@ class NotificationsWorker
   end
 
   def send_via_twilio(trans, message)
-    twilio_client.messages.create(
-      to:   trans.peer.phone,
-      from: ENV['TWILIO_PHONE_NUMBER'],
-      body: message
-    )
+    begin
+      twilio_client.messages.create(
+        to:   trans.peer.phone,
+        from: ENV['TWILIO_PHONE_NUMBER'],
+        body: message
+      )
+      trans.send_request! # change state of transaction to :requested_confirmation
+    rescue Twilio::REST::RequestError => e
+      puts e.message
+      puts e.error_message
+      # notify admin or user that notification could not be sent to peer
+      # ...or try to re-send text later
+    end
   end
 
   def twilio_client

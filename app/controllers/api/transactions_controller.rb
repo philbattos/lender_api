@@ -46,7 +46,7 @@ module Api
 
     def format_phone
       # client should ensure that all phone numbers are 10-digits long
-      params[:phone].insert(0, '+1') # prefix numbers with +1 to match Twilio formatting
+      params[:phone].prepend('+1') # prefix numbers with +1 to match Twilio formatting
     end
 
   end
