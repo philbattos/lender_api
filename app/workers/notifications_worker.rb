@@ -27,9 +27,9 @@ class NotificationsWorker
         body: message
       )
       trans.send_request! # change state of transaction to :requested_confirmation
+                          # if text is successfully sent to peer
     rescue Twilio::REST::RequestError => e
       puts e.message
-      puts e.error_message
       # notify admin or user that notification could not be sent to peer
       # ...or try to re-send text later
     end
