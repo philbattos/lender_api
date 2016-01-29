@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+  devise_for :users
+
+  root to: 'transactions#index' # required by Devise
+
   namespace :api, defaults: { format: :json } do
     resources :users,         only: [:index, :create]
     resources :transactions,  only: [:index, :show, :create]

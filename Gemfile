@@ -23,6 +23,7 @@ gem 'pg'                                                # use postgres db instea
 gem 'sidekiq'                                           # for background workers
 gem 'aasm'                                              # state machine
 gem 'possessive'                                        # for displaying possessive names
+gem 'devise'                                            # for authentication
 
 group :production do
   gem 'rails_12factor'                                  # for Heroku deployment

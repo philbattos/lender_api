@@ -40,6 +40,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
+    bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
@@ -95,6 +96,13 @@ GEM
     coffee-script-source (1.10.0)
     connection_pool (2.2.0)
     debug_inspector (0.0.2)
+    devise (3.5.5)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     dotenv (2.0.2)
     dotenv-rails (2.0.2)
@@ -127,6 +135,7 @@ GEM
     nenv (0.2.0)
     nokogiri (1.6.6.4)
       mini_portile (~> 0.6.0)
+    orm_adapter (0.5.0)
     pg (0.18.3)
     possessive (1.0.1)
     pry (0.10.3)
@@ -233,6 +242,8 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    warden (1.2.5)
+      rack (>= 1.0)
     web-console (2.2.1)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -247,6 +258,7 @@ DEPENDENCIES
   active_model_serializers
   byebug
   coffee-rails (~> 4.1.0)
+  devise
   dotenv-rails
   jbuilder (~> 2.0)
   jquery-rails
