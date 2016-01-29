@@ -12,7 +12,8 @@ class User::SessionsController < Devise::SessionsController
     puts "block_given?: #{block_given?}"
     puts "current_user: #{current_user.inspect}"
     yield resource if block_given?
-    respond_with resource
+    # respond_with resource
+    render json: resource
     # after_sign_in_path_for(resource)
   end
 end
