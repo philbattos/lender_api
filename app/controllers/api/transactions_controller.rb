@@ -14,9 +14,6 @@ module Api
 
     def create
       trans = current_user.transactions.new(transaction_params) {|t| t.peer_id = @peer.id }
-      puts "trans: #{trans.inspect}"
-      puts "trans.errors: #{trans.errors.inspect}"
-      puts "trans.valid?: #{trans.valid?}"
       if trans.save!
         # TO DO: ensure that client form contains validations for phone number and/or email address of peer
         NotificationsWorker.perform_async(trans.id)
@@ -35,21 +32,16 @@ module Api
 
     def find_peer
       format_phone
-      puts "params[:phone]: #{params[:phone]}"
       @peer = User.find_or_create_by!(phone: params[:phone]) do |peer|
         peer.firstname  = params[:firstname]
         peer.lastname   = params[:lastname]
         peer.email      = params[:email]
       end
-      puts "peer.errors: #{@peer.errors.inspect}"
-      puts "peer.inspect: #{@peer.inspect}"
     end
 
     def format_phone
-      puts "params[:phone]: #{params[:phone]}"
       # client should ensure that all phone numbers are 10-digits long
-      phone = params[:phone]
-      phone.prepend('+1') # prefix numbers with +1 to match Twilio formatting
+      params[:phone].prepend('+1') # prefix numbers with +1 to match Twilio formatting
     end
 
   end
