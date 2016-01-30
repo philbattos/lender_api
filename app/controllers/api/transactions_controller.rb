@@ -1,6 +1,5 @@
 module Api
   class TransactionsController < ApplicationController
-    before_action :find_user, only: :create
     before_action :find_peer, only: :create
     respond_to :json
 
@@ -14,7 +13,10 @@ module Api
     end
 
     def create
-      trans = @user.transactions.new(transaction_params) {|t| t.peer_id = @peer.id }
+      trans = current_user.transactions.new(transaction_params) {|t| t.peer_id = @peer.id }
+      puts "trans: #{trans.inspect}"
+      puts "trans.errors: #{trans.errors}"
+      puts "trans.valid?: #{trans.valid?}"
       if trans.save
         # TO DO: ensure that client form contains validations for phone number and/or email address of peer
         NotificationsWorker.perform_async(trans.id)
@@ -31,17 +33,17 @@ module Api
       params.require(:transaction).permit(:id, :user_id, :peer_id, :amount, :terms)
     end
 
-    def find_user
-      @user ||= User.find_by(email: 'philbattos@gmail.com')
-    end
-
     def find_peer
       format_phone
+      puts "format_phone: #{format_phone}"
+      puts "params[:phone]: #{params[:phone]}"
       @peer = User.find_or_create_by(phone: params[:phone]) do |peer|
         peer.firstname  = params[:firstname]
         peer.lastname   = params[:lastname]
         peer.email      = params[:email]
       end
+      puts "peer.errors: #{@peer.errors}"
+      puts "peer.inspect: #{@peer.inspect}"
     end
 
     def format_phone
