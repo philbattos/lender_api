@@ -21,6 +21,11 @@ class User < ActiveRecord::Base
   has_many :peers, through: :transactions
 
   #-------------------------------------------------
+  #    Validations
+  #-------------------------------------------------
+  validates :email, uniqueness: true
+
+  #-------------------------------------------------
   #    Public Instance Methods
   #-------------------------------------------------
   def full_name
