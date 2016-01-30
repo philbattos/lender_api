@@ -5,11 +5,11 @@ module Api
     respond_to :json
 
     def index
-      @open_transactions = Transaction.open.order(:created_at)
+      @open_transactions = current_user.transactions.open.order(:created_at)
     end
 
     def show
-      @transaction = Transaction.find(params[:id])
+      @transaction = current_user.transactions.find(params[:id])
       # render json: @transaction # create jbuilder template?
     end
 
