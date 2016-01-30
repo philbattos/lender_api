@@ -15,9 +15,9 @@ module Api
     def create
       trans = current_user.transactions.new(transaction_params) {|t| t.peer_id = @peer.id }
       puts "trans: #{trans.inspect}"
-      puts "trans.errors: #{trans.errors}"
+      puts "trans.errors: #{trans.errors.inspect}"
       puts "trans.valid?: #{trans.valid?}"
-      if trans.save
+      if trans.save!
         # TO DO: ensure that client form contains validations for phone number and/or email address of peer
         NotificationsWorker.perform_async(trans.id)
         render json: trans # create jbuilder template?
@@ -42,7 +42,7 @@ module Api
         peer.lastname   = params[:lastname]
         peer.email      = params[:email]
       end
-      puts "peer.errors: #{@peer.errors}"
+      puts "peer.errors: #{@peer.errors.inspect}"
       puts "peer.inspect: #{@peer.inspect}"
     end
 
