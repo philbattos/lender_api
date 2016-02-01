@@ -4,7 +4,7 @@ class User::SessionsController < Devise::SessionsController
   def create
     puts "SESSION-1 current_user: #{current_user.id}"
     puts "SESSION-1 user: #{:user}"
-    sign_out(current_user) if current_user
+    sign_out(:user) if current_user
     puts "SESSION-2 current_user: #{current_user.id}"
     self.resource = warden.authenticate!(auth_options)
     sign_in(resource_name, resource)
