@@ -14,7 +14,7 @@ module Api
       if user.save
         render json: user
       else
-        render json: 422
+        render json: { errors: user.errors.full_messages }, status: 422
       end
     end
 
