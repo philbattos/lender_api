@@ -5,13 +5,13 @@ module Api
 
     def index
       puts "ACTIVE: #{params.inspect}"
-      puts "ACTIVE: current_user: #{current_user.inspect}"
+      puts "ACTIVE: current_user: #{current_user.id}"
       @open_transactions = current_user.transactions.open.order(:created_at)
     end
 
     def old_transactions
       puts "OLD: #{params.inspect}"
-      puts "OLD current_user: #{current_user.inspect}"
+      puts "OLD current_user: #{current_user.id}"
       @old_transactions = current_user.transactions.closed.order(:created_at)
     end
 
