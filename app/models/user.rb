@@ -32,23 +32,24 @@ class User < ActiveRecord::Base
     "#{firstname} #{lastname}"
   end
 
+  def transactions_as_lender
+    Transaction.find_by_lender(self.id)
+  end
+
+  def transactions_as_peer
+    Transaction.find_by_peer(self.id)
+  end
+
+  def all_transactions
+    Transaction.where("user_id = 1 OR peer_id = 1")
+  end
+
   def open_request
-    transactions.requested_confirmation.first
+    @open_request ||= Transaction.where(peer_id: self.id).requested_confirmation.first
   end
 
   def has_open_request?
-    transactions.requested_confirmation.any?
+    open_request.present?
   end
 
-  # def active_loans
-  #   transactions.active
-  # end
-
-  # def completed_loans
-  #   transactions.closed
-  # end
-
-  # def delinquent_loans
-  #   transactions.delinquent
-  # end
 end

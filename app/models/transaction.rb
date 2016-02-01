@@ -16,7 +16,9 @@ class Transaction < ActiveRecord::Base
   #-------------------------------------------------
   #    Scopes
   #-------------------------------------------------
-  scope :open, -> { where(aasm_state: [:requested_confirmation, :active, :delinquent]) }
+  scope :open,            ->              { where(aasm_state: [:requested_confirmation, :active, :delinquent]) }
+  scope :find_by_lender,  -> (lender_id)  { where(user_id: lender_id) }
+  scope :find_by_peer,    -> (peer_id)    { where(peer_id: peer_id) }
 
   #-------------------------------------------------
   #    States

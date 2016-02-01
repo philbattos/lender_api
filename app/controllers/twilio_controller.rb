@@ -9,11 +9,11 @@ module Twilio
           if accepted_response.include? @sms.body.upcase
             @transaction.confirm!   # change state of transaction to 'active'
             render 'twilio/sms/confirmation.xml.erb', content_type: 'text/xml'
-          else                      # unrecognized response; assume user intends to decline loan offer
+          else                      # unrecognized response; assume peer intends to decline loan offer
             @transaction.decline!   # change state of transaction to 'rejected'
             render 'twilio/sms/declined.xml.erb', content_type: 'text/xml'
           end
-        else                        # user has no pending requests
+        else                        # peer has no pending requests
           render 'twilio/sms/unrequested.xml.erb'
         end
       else
@@ -28,7 +28,8 @@ module Twilio
     def find_transaction
       sender = User.find_by(phone: @sms.from)
       sender && sender.open_request
-      # TO DO: what if there are more than one users with the same phone number? Do we really want to select the first in that group?
+      # TO DO: What if there are more than one users with the same phone number?
+      #        Do we really want to select the first in that group?
     end
 
     def accepted_response

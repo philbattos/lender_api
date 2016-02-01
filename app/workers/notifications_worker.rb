@@ -2,7 +2,6 @@ class NotificationsWorker
   include Sidekiq::Worker
 
   def perform(transaction_id)
-    # client will ensure that peer-user has a valid phone or email
     trans = Transaction.find(transaction_id)
     trans.peer.phone ? send_sms(trans) : send_email(trans)
   end
@@ -42,7 +41,6 @@ class NotificationsWorker
   end
 
   def request(trans)
-    # TO DO: find a way
     "#{trans.user.full_name} would like to lend you #{ActionController::Base.helpers.number_to_currency(trans.amount)} to be paid back with #{trans.terms}% interest. If you accept this loan, reply YES."
   end
 

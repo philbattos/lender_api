@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   root to: 'transactions#index' # required by Devise
 
   namespace :api, defaults: { format: :json } do
-    resources :users,         only: [:index, :create]
     resources :transactions,  only: [:index, :show, :create]
     get 'old_transactions', to: 'transactions#old_transactions'
   end
