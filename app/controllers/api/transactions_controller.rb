@@ -23,7 +23,7 @@ module Api
         NotificationsWorker.perform_async(trans.id)
         render json: trans # create jbuilder template?
       else
-        render json: 422
+        render json: { errors: trans.errors.full_messages }, status: 422
       end
     end
 
