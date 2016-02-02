@@ -29,7 +29,8 @@ class NotificationsWorker
                           # if text is successfully sent to peer
     rescue Twilio::REST::RequestError => e
       puts e.message
-      puts "TWILIO ERROR: #{e.inspect}"
+      puts "TWILIO CODE: #{e.code}"
+      puts "TWILIO EXCEPTION: #{e.exception}"
       puts "TWILIO OPTIONS: #{e.methods}"
       # notify admin or user that notification could not be sent to peer
       # ...or try to re-send text later
