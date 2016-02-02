@@ -43,7 +43,8 @@ module Api
                         firstname: params[:firstname],
                         lastname: params[:lastname],
                         email: params[:email] )
-        @peer = user.save(validate: false)
+        user.save(validate: false)
+        @peer = user
       end
       # @peer = User.find_or_create_by!(phone: params[:phone], validate: false) do |peer|
       #   peer.firstname  = params[:firstname]
