@@ -30,7 +30,7 @@ class NotificationsWorker
     rescue Twilio::REST::RequestError => e
       puts e.message
       puts e.code # https://www.twilio.com/docs/api/errors/reference
-      if e.code == '21211'
+      if e.code == 21211
         trans.phone_fail!
         # notify user (or admin?) that entered phone number is invalid
       else
