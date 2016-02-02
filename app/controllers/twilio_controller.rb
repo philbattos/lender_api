@@ -7,6 +7,7 @@ module Twilio
         @transaction = find_transaction
         if @transaction
           if accepted_response.include? @sms.body.upcase
+            @transaction.update(start_date: Time.current)
             @transaction.confirm!   # change state of transaction to 'active'
             render 'twilio/sms/confirmation.xml.erb', content_type: 'text/xml'
           else                      # unrecognized response; assume peer intends to decline loan offer

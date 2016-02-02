@@ -41,12 +41,6 @@ module Api
       if @peer.nil?
         @peer = create_user_without_validations
       end
-
-      # @peer = User.find_or_create_by!(phone: params[:phone], validate: false) do |peer|
-      #   peer.firstname  = params[:firstname]
-      #   peer.lastname   = params[:lastname]
-      #   peer.email      = params[:email]
-      # end
     end
 
     def format_phone
@@ -55,13 +49,14 @@ module Api
     end
 
     def create_user_without_validations
-      user = User.new(phone: params[:phone],
-                      firstname: params[:firstname],
-                      lastname: params[:lastname],
-                      email: params[:email] )
+      user = User.new phone:                  params[:phone],
+                      firstname:              params[:firstname],
+                      lastname:               params[:lastname],
+                      email:                  params[:email],
+                      password:               'lendmoney',
+                      password_confirmation:  'lendmoney'
       user.save(validate: false)
       user
     end
-
   end
 end
