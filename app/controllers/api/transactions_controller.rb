@@ -37,11 +37,19 @@ module Api
 
     def find_peer
       format_phone
-      @peer = User.find_or_create_by!(phone: params[:phone], validate: false) do |peer|
-        peer.firstname  = params[:firstname]
-        peer.lastname   = params[:lastname]
-        peer.email      = params[:email]
+      @peer = User.find(phone: params[:phone])
+      if @peer.nil?
+        user = User.new(phone: params[:phone],
+                        firstname: params[:firstname],
+                        lastname: params[:lastname],
+                        email: params[:email] )
+        @peer = user.save(validate: false)
       end
+      # @peer = User.find_or_create_by!(phone: params[:phone], validate: false) do |peer|
+      #   peer.firstname  = params[:firstname]
+      #   peer.lastname   = params[:lastname]
+      #   peer.email      = params[:email]
+      # end
     end
 
     def format_phone
