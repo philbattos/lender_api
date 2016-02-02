@@ -37,7 +37,7 @@ module Api
 
     def find_peer
       format_phone
-      @peer = User.find(phone: params[:phone])
+      @peer = User.find_by(phone: params[:phone])
       if @peer.nil?
         user = User.new(phone: params[:phone],
                         firstname: params[:firstname],
