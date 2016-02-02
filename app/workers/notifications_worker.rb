@@ -28,12 +28,12 @@ class NotificationsWorker
       trans.send_request! # change state of transaction to :requested_confirmation
                           # if text is successfully sent to peer
     rescue Twilio::REST::RequestError => e
-      puts e.message
-      puts "TWILIO CODE: #{e.code}"
-      puts "TWILIO EXCEPTION: #{e.exception}"
-      puts "TWILIO OPTIONS: #{e.methods}"
-      # notify admin or user that notification could not be sent to peer
-      # ...or try to re-send text later
+      if e.code == '21211'
+        trans.phone_fail!
+        # notify user (or admin?) that entered phone number is invalid
+      else
+        puts e.message
+      end
     end
   end
 

@@ -30,6 +30,7 @@ class Transaction < ActiveRecord::Base
     state :rejected               # request unaccepted by peer
     state :closed                 # loan opened, confirmed, and repaid
     state :delinquent             # terms of loan have been broken (late repayment, etc.)
+    state :twilio_error           # Twilio could not dispatch SMS
 
     event :send_request do
       transitions from: :fresh, to: :requested_confirmation, :unless => :pending_request?
@@ -41,6 +42,10 @@ class Transaction < ActiveRecord::Base
 
     event :decline do
       transitions from: :requested_confirmation, to: :rejected
+    end
+
+    event :phone_fail do
+      transitions from: :requested_confirmation, to: :twilio_error
     end
 
     event :finalize do
