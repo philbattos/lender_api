@@ -36,16 +36,16 @@ class Transaction < ActiveRecord::Base
       transitions from: :fresh, to: :requested_confirmation, :unless => :pending_request?
     end
 
+    event :phone_fail do
+      transitions from: :fresh, to: :twilio_error
+    end
+
     event :confirm do
       transitions from: :requested_confirmation, to: :active
     end
 
     event :decline do
       transitions from: :requested_confirmation, to: :rejected
-    end
-
-    event :phone_fail do
-      transitions from: :requested_confirmation, to: :twilio_error
     end
 
     event :finalize do
