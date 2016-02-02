@@ -39,13 +39,9 @@ module Api
       format_phone
       @peer = User.find_by(phone: params[:phone])
       if @peer.nil?
-        user = User.new(phone: params[:phone],
-                        firstname: params[:firstname],
-                        lastname: params[:lastname],
-                        email: params[:email] )
-        user.save(validate: false)
-        @peer = user
+        @peer = create_user_without_validations
       end
+
       # @peer = User.find_or_create_by!(phone: params[:phone], validate: false) do |peer|
       #   peer.firstname  = params[:firstname]
       #   peer.lastname   = params[:lastname]
@@ -56,6 +52,15 @@ module Api
     def format_phone
       # client should ensure that all phone numbers are 10-digits long
       params[:phone].prepend('+1') # prefix numbers with +1 to match Twilio formatting
+    end
+
+    def create_user_without_validations
+      user = User.new(phone: params[:phone],
+                      firstname: params[:firstname],
+                      lastname: params[:lastname],
+                      email: params[:email] )
+      user.save(validate: false)
+      user
     end
 
   end
