@@ -28,8 +28,8 @@ class NotificationsWorker
       trans.send_request! # change state of transaction to :requested_confirmation
                           # if text is successfully sent to peer
     rescue Twilio::REST::RequestError => e
-      puts e.message
-      puts e.code # https://www.twilio.com/docs/api/errors/reference
+      puts "TWILIO MESSAGE: #{e.message}"
+      puts "TWILIO CODE: #{e.code}" # https://www.twilio.com/docs/api/errors/reference
       if e.code == 21211
         trans.phone_fail!
         # notify user (or admin?) that entered phone number is invalid

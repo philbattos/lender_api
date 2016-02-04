@@ -1,5 +1,5 @@
 <Response>
   <Message>
-    Ok, great! You have accepted <%= @transaction.user.firstname.possessive %> offer. We have recorded that <%= @transaction.user.full_name %> lent you <%= @transaction.amount %> for <%= @transaction.terms %>. You can view this loan on the friend-lender-app.
+    Ok, great! You have accepted <%= @transaction.user.firstname.possessive %> offer. We have recorded that <%= @transaction.user.full_name %> lent you <%= number_to_currency @transaction.amount %> for <%= @transaction.terms %>. You can view this loan on the friend-lender-app.
   </Message>
 </Response>
