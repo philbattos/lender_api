@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   #-------------------------------------------------
   #    Validations
   #-------------------------------------------------
-  validates :phone, format: { with: '[+]1\d{10}' }
+  validates :phone, format: { with: /[+]1\d{10}/ }
 
   #-------------------------------------------------
   #    Public Instance Methods
