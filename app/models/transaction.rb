@@ -63,4 +63,18 @@ class Transaction < ActiveRecord::Base
   def pending_request?
     user.transactions.requested_confirmation.any?
   end
+
+  def accrued_interest
+    apr         = terms.to_f / 100 # assumes that '.terms' is a number between 1-100
+    start       = start_date || created_at
+    days        = (Time.current.to_date - start.to_date).to_i
+    daily_rate  = apr * days / 365
+
+    @accrued_interest = (daily_rate * days * amount).round(2)
+  end
+
+  def balance
+    @accrued_interest ||= accrued_interest
+    @accrued_interest + amount
+  end
 end
