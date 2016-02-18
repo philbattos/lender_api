@@ -8,4 +8,5 @@ json.transaction do
   json.state @transaction.aasm_state
   json.accrued_interest number_to_currency(@transaction.accrued_interest)
   json.balance number_to_currency(@transaction.balance)
+  json.days_since_lending time_ago_in_words(@transaction.created_at) + ' ago'
 end

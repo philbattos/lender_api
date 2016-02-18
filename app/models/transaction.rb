@@ -64,10 +64,18 @@ class Transaction < ActiveRecord::Base
     user.transactions.requested_confirmation.any?
   end
 
+  def seconds_since_lending
+    lending_start_time = start_date || created_at
+    Time.current - lending_start_time
+  end
+
+  def days_since_lending
+    seconds_since_lending / 86400
+  end
+
   def accrued_interest
     daily_apr   = terms.to_f / 100 # assumes that '.terms' is a number between 1-100
-    start       = start_date || created_at
-    days        = (Time.current.to_date - start.to_date).to_i
+    days        = days_since_lending.to_i
     daily_rate  = daily_apr / 365
 
     @accrued_interest = (daily_rate * days * amount).round(2)
